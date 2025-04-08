@@ -28,7 +28,7 @@ const WeatherCard = ({ initialWeather }: WeatherCardProps) => {
           <p className="text-4xl font-semibold">{weather.main.temp}°C</p>
         </div>
         <Image
-          src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+          src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
           alt="Weather icon"
           width={64}
           height={64}
