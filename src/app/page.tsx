@@ -1,29 +1,24 @@
 import { getWeatherByCity } from '@/lib/api';
 import WeatherCard from '@/components/weather-card';
 import SearchInput from '@/components/search-input';
-import { WeatherData } from '@/types/weather-data';
+import { Suspense } from 'react';
 
-export default async function Home() {
+async function WeatherContent({ city }: { city: string }) {
+  const weather = await getWeatherByCity(city);
+  return <WeatherCard initialWeather={weather} />;
+}
+
+export default function Home() {
   const defaultCity = 'London';
-  let weather: WeatherData | undefined;
-  let error: string | undefined;
-
-  try {
-    weather = await getWeatherByCity(defaultCity);
-  } catch (err) {
-    error = err instanceof Error ? err.message : 'Failed to fetch weather data';
-  }
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4">
       <div className="w-full max-w-md">
         <h1 className="text-3xl font-bold text-center mb-6">Weather Widget</h1>
         <SearchInput initialCity={defaultCity} />
-        {error ? (
-          <div className="text-red-500 text-center">{error}</div>
-        ) : (
-          <WeatherCard initialWeather={weather} />
-        )}
+        <Suspense fallback={<div className="text-center animate-pulse">Loading weather...</div>}>
+          <WeatherContent city={defaultCity} />
+        </Suspense>
       </div>
     </div>
   );
