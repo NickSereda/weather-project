@@ -2,16 +2,14 @@
 
 import { create } from 'zustand';
 import { WeatherData } from '@/types/weather-data';
-
+import { getWeatherByCity } from '@/lib/api';
 interface WeatherState {
   city: string;
   weather: WeatherData | null;
   loading: boolean;
   error: string | null;
   setCity: (city: string) => void;
-  setWeather: (weather: WeatherData) => void;
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
+  fetchWeather: (city: string) => Promise<void>;
 }
 
 export const useWeatherStore = create<WeatherState>((set) => ({
@@ -20,7 +18,16 @@ export const useWeatherStore = create<WeatherState>((set) => ({
   loading: false,
   error: null,
   setCity: (city) => set({ city }),
-  setWeather: (weather) => set({ weather }),
-  setLoading: (loading) => set({ loading }),
-  setError: (error) => set({ error }),
+  fetchWeather: async (city) => {
+    set({ loading: true, error: null });
+    try {
+      const weather = await getWeatherByCity(city);
+      set({ weather, loading: false });
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : 'Unknown error',
+        loading: false,
+      });
+    }
+  },
 }));

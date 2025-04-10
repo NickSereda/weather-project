@@ -2,15 +2,13 @@
 
 import { useWeatherStore } from '@/store/weather-store';
 import { FormEvent, useEffect } from 'react';
-import { getWeatherByCity } from '@/lib/api';
-import { WeatherData } from '@/types/weather-data';
 
 interface SearchInputProps {
   initialCity: string;
 }
 
 const SearchInput = ({ initialCity }: SearchInputProps) => {
-  const { city, setCity, setWeather, setLoading, setError } = useWeatherStore();
+  const { city, setCity, fetchWeather } = useWeatherStore();
 
   useEffect(() => {
     setCity(initialCity);
@@ -18,17 +16,7 @@ const SearchInput = ({ initialCity }: SearchInputProps) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      const weatherData: WeatherData = await getWeatherByCity(city);
-      setWeather(weatherData);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch weather');
-    } finally {
-      setLoading(false);
-    }
+    if (city) await fetchWeather(city);
   };
 
   return (
