@@ -7,6 +7,7 @@ interface SearchInputProps {
   initialCity: string;
 }
 
+/// This component renders a search input for the user to enter a city name.
 const SearchInput = ({ initialCity }: SearchInputProps) => {
   const { city, setCity, fetchWeather } = useWeatherStore();
 

@@ -8,13 +8,14 @@ interface WeatherCardProps {
   initialWeather: WeatherData | null;
 }
 
+/// This component renders the weather card with the weather data.
 const WeatherCard = ({ initialWeather }: WeatherCardProps) => {
 
-  // Render initialWeather directly on first paint if Zustand isn’t yet hydrated.
   const { weather, loading, error } = useWeatherStore();
 
+  // Check if the weather data is hydrated
   const hydrated = !!weather || !!initialWeather;
-  const displayWeather = weather || initialWeather; // ✅ Fallback early
+  const displayWeather = weather || initialWeather;
 
   if (loading) return <div className="text-center animate-pulse">Loading...</div>;
   if (error) return <div className="text-red-500 text-center">{error}</div>;
@@ -32,7 +33,7 @@ const WeatherCard = ({ initialWeather }: WeatherCardProps) => {
             <p className="text-4xl font-semibold">{displayWeather?.main.temp}°C</p>
           </div>
           <Image
-            src={`https://openweathermap.org/img/wn/${displayWeather.weather[0].icon}@2x.png`}
+            src={`https://openweathermap.org/img/wn/${displayWeather?.weather[0].icon}@2x.png`}
             alt="Weather icon"
             width={64}
             height={64}

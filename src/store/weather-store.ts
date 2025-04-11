@@ -3,8 +3,8 @@
 import { create } from 'zustand';
 import { WeatherData } from '@/types/weather-data';
 import { getWeatherByCity } from '@/lib/api';
-// Zustand store file (e.g., weather-store.ts)
 
+/// This file defines the Zustand store for managing weather data.
 interface WeatherState {
   city: string;
   weather: WeatherData | null;
@@ -12,9 +12,9 @@ interface WeatherState {
   error: string | null;
   setCity: (city: string) => void;
   fetchWeather: (city: string) => Promise<void>;
-  initializeWeather: (initialWeather: WeatherData | null) => void; // 👈 Add this line
 }
 
+/// This function creates a Zustand store for managing weather data.
 export const useWeatherStore = create<WeatherState>((set) => ({
   city: '',
   weather: null,
@@ -33,5 +33,4 @@ export const useWeatherStore = create<WeatherState>((set) => ({
       });
     }
   },
-  initializeWeather: (initialWeather) => set({ weather: initialWeather }), // 👈 Add this
 }));
