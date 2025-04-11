@@ -1,30 +1,13 @@
 import WeatherCard from '@/components/weather-card';
 import SearchInput from '@/components/search-input';
 import { Suspense } from 'react';
-import axios from 'axios';
-import { WeatherData } from '@/types/weather-data';
 
-// This function is server-side
-async function fetchInitialWeather(city: string): Promise<WeatherData | null> {
-  try {
-    const response = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
-      params: {
-        q: city,
-        appid: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
-        units: 'metric',
-      },
-    });
-    return response.data as WeatherData;
-  } catch (error) {
-    // Log the error for debugging (optional, remove if not needed)
-    console.error(`Failed to fetch weather for ${city}:`, error);
-    return null;
-  }
-}
+import { getWeatherByCity } from '@/lib/api';
+
 
 export default async function Home() {
   const defaultCity = 'London';
-  const initialWeather = await fetchInitialWeather(defaultCity);
+  const initialWeather = await getWeatherByCity(defaultCity);
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4">

@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     const response = await api.get('/weather', {
       params: {
         q: city,
-        appid: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
+        appid: process.env.WEATHER_API_KEY,
         units: 'metric',
       },
     });

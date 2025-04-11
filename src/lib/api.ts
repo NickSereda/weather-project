@@ -2,8 +2,10 @@ import axios from 'axios';
 import { WeatherData } from '@/types/weather-data';
 import { ERROR_MESSAGES } from './constants';
 
+const isServer = typeof window === 'undefined';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: isServer ? `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api` : '/api',
 });
 
 export const getWeatherByCity = async (city: string): Promise<WeatherData> => {

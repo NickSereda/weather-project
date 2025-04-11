@@ -6,8 +6,15 @@
 
 **Create a .env.local file in the root directory with your OpenWeatherMap API key:**
 ```
-NEXT_PUBLIC_WEATHER_API_KEY=your-api-key-here
+WEATHER_API_KEY=your-api-key-here
 ```
+
+**set NEXT_PUBLIC_BASE_URL in .env to support prod environment(no need to set this for local environment).**
+
+```
+NEXT_PUBLIC_BASE_URL=...
+```
+
 **Run the development server:**
 
 `npm run dev`
